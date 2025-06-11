@@ -302,3 +302,29 @@ FROM leads
 
 ORDER BY created_at DESC
 ;
+
+--半導体製造会社の売り上げ管理DB
+-- クエリを書いてください。 --
+SELECT
+    T2.id AS company_id,
+    T2.name AS company_name,
+    T2.contact_email AS company_email,
+    SUM(T1.quantity * T1.item_price) AS item_price
+FROM purchases T1
+INNER JOIN companies T2
+    ON T1.company_id = T2.id
+GROUP BY T2.id,T2.name,T2.contact_email
+
+--ファッション通販サイトのDB
+SELECT
+    T3.id,
+    T3.name,
+    SUM(T1.sales_price) AS total_sales_amount
+FROM purchases T1
+INNER JOIN product_categories T2
+    ON T1.product_id = T2.product_id
+INNER JOIN categories T3
+    ON T2.category_id = T3.id
+GROUP BY T3.id,T3.name
+ORDER BY total_sales_amount DESC
+;
